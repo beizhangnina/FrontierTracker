@@ -283,6 +283,49 @@ class FlightEmailer:
             logger.error(f"发送邮件失败: {e}")
             return False
 
+    def send_email_to(self, report: FlightReport, to_email: str) -> bool:
+        """
+        发送航班报告邮件到指定邮箱
+
+        Args:
+            report: FlightReport 对象
+            to_email: 接收邮箱地址
+
+        Returns:
+            是否发送成功
+        """
+        try:
+            # 准备模板数据
+            template_data = self._prepare_report_data(report)
+
+            # 渲染 HTML
+            template = self._load_template()
+            html_content = template.render(**template_data)
+
+            # 创建邮件
+            msg = MIMEMultipart("alternative")
+            msg["Subject"] = f"Frontier Flight Report - {datetime.now().strftime('%Y-%m-%d')}"
+            msg["From"] = config.gmail_user
+            msg["To"] = to_email
+
+            # 添加 HTML 内容
+            html_part = MIMEText(html_content, "html")
+            msg.attach(html_part)
+
+            # 发送邮件
+            logger.info(f"发送邮件到 {to_email}")
+            with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
+                server.starttls()
+                server.login(config.gmail_user, config.gmail_app_password)
+                server.send_message(msg)
+
+            logger.info(f"邮件发送成功到 {to_email}")
+            return True
+
+        except Exception as e:
+            logger.error(f"发送邮件失败: {e}")
+            return False
+
     def send_test_email(self) -> bool:
         """发送测试邮件"""
         try:

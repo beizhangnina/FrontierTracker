@@ -8,30 +8,17 @@ Frontier Tracker - Web 服务入口
 """
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.responses import HTMLResponse
 import os
-from contextlib import asynccontextmanager
 
 from src.api import router
-from src.config import config
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """应用生命周期管理"""
-    # 初始化认证数据库
-    from src.auth import init_auth_db
-    init_auth_db()
-    yield
-    # 清理资源（如果需要）
 
 
 # 创建 FastAPI 应用
 app = FastAPI(
     title="Frontier Flight Tracker",
     description="Track Frontier Airlines flight prices",
-    version="1.0.0",
-    lifespan=lifespan
+    version="1.0.0"
 )
 
 # 挂载静态文件目录
@@ -53,7 +40,7 @@ async def root():
     <head><title>Frontier Tracker</title></head>
     <body>
         <h1>Frontier Flight Tracker</h1>
-        <p>Static files not found. Please run <code>python -m src.setup</code> first.</p>
+        <p>Static files not found.</p>
     </body>
     </html>
     """

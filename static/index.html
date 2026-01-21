@@ -16,39 +16,21 @@
         <!-- 登录前界面 -->
         <div id="login-section" class="section">
             <div class="card">
-                <h2>登录 / 注册</h2>
-                <p class="info-text">输入邮箱获取验证码</p>
+                <h2>登录</h2>
+                <p class="info-text">请输入访问密码</p>
 
                 <form id="login-form">
                     <div class="form-group">
                         <input
-                            type="email"
-                            id="email-input"
-                            placeholder="your-email@gmail.com"
-                            required
-                            autocomplete="email"
+                            type="password"
+                            id="password-input"
+                            placeholder="输入密码"
+                            autocomplete="current-password"
                         >
                     </div>
 
-                    <div id="code-section" style="display: none;">
-                        <div class="form-group">
-                            <input
-                                type="text"
-                                id="code-input"
-                                placeholder="输入 6 位验证码"
-                                maxlength="6"
-                                pattern="[0-9]{6}"
-                                autocomplete="one-time-code"
-                            >
-                        </div>
-                    </div>
-
-                    <div id="timer" style="display: none;" class="timer">
-                        验证码有效期: <span id="timer-count">10:00</span>
-                    </div>
-
-                    <button type="submit" id="submit-btn" class="btn btn-primary">
-                        发送验证码
+                    <button type="submit" id="login-btn" class="btn btn-primary">
+                        登录
                     </button>
                 </form>
 
@@ -59,8 +41,8 @@
         <!-- 登录后界面 -->
         <div id="dashboard-section" class="section" style="display: none;">
             <div class="card">
-                <h2>欢迎回来! <span id="user-email"></span></h2>
-                <p class="info-text">点击下方按钮查询接下来 14 天的航班价格</p>
+                <h2>查询航班</h2>
+                <p class="info-text">输入邮箱，点击按钮查询接下来 14 天的航班价格</p>
 
                 <div class="route-info">
                     <div class="route-item">📍 SFO → LAS</div>
@@ -69,9 +51,21 @@
                     <div class="route-item">📍 LAS → SJC</div>
                 </div>
 
-                <button id="query-btn" class="btn btn-large btn-success">
-                    🚀 查询航班
-                </button>
+                <form id="query-form">
+                    <div class="form-group">
+                        <input
+                            type="email"
+                            id="email-input"
+                            placeholder="接收报告的邮箱地址"
+                            required
+                            value="beizhangbill@gmail.com"
+                        >
+                    </div>
+
+                    <button type="submit" id="query-btn" class="btn btn-large btn-success">
+                        🚀 查询航班
+                    </button>
+                </form>
 
                 <button id="logout-btn" class="btn btn-secondary">
                     登出
@@ -82,7 +76,7 @@
 
             <div class="card schedule-info">
                 <h3>📅 定时报告</h3>
-                <p>每周二、周四 8:00 AM 自动发送报告到您的邮箱</p>
+                <p>每周二、周四 8:00 AM 自动发送报告</p>
             </div>
         </div>
 
