@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontier Flight Tracker</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✈️ Frontier Flight Tracker</h1>
+            <p class="subtitle">SFO/SJC ↔ LAS 单程航班价格查询</p>
+        </header>
+
+        <!-- 登录前界面 -->
+        <div id="login-section" class="section">
+            <div class="card">
+                <h2>登录 / 注册</h2>
+                <p class="info-text">输入邮箱获取验证码</p>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <input
+                            type="email"
+                            id="email-input"
+                            placeholder="your-email@gmail.com"
+                            required
+                            autocomplete="email"
+                        >
+                    </div>
+
+                    <div id="code-section" style="display: none;">
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                id="code-input"
+                                placeholder="输入 6 位验证码"
+                                maxlength="6"
+                                pattern="[0-9]{6}"
+                                autocomplete="one-time-code"
+                            >
+                        </div>
+                    </div>
+
+                    <div id="timer" style="display: none;" class="timer">
+                        验证码有效期: <span id="timer-count">10:00</span>
+                    </div>
+
+                    <button type="submit" id="submit-btn" class="btn btn-primary">
+                        发送验证码
+                    </button>
+                </form>
+
+                <div id="message" class="message"></div>
+            </div>
+        </div>
+
+        <!-- 登录后界面 -->
+        <div id="dashboard-section" class="section" style="display: none;">
+            <div class="card">
+                <h2>欢迎回来! <span id="user-email"></span></h2>
+                <p class="info-text">点击下方按钮查询接下来 14 天的航班价格</p>
+
+                <div class="route-info">
+                    <div class="route-item">📍 SFO → LAS</div>
+                    <div class="route-item">📍 SJC → LAS</div>
+                    <div class="route-item">📍 LAS → SFO</div>
+                    <div class="route-item">📍 LAS → SJC</div>
+                </div>
+
+                <button id="query-btn" class="btn btn-large btn-success">
+                    🚀 查询航班
+                </button>
+
+                <button id="logout-btn" class="btn btn-secondary">
+                    登出
+                </button>
+
+                <div id="query-message" class="message"></div>
+            </div>
+
+            <div class="card schedule-info">
+                <h3>📅 定时报告</h3>
+                <p>每周二、周四 8:00 AM 自动发送报告到您的邮箱</p>
+            </div>
+        </div>
+
+        <!-- 加载动画 -->
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p id="loading-text">正在查询...</p>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

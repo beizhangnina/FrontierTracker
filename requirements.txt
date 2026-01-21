@@ -1,0 +1,29 @@
+# Frontier Flight Tracker Requirements
+
+# Amadeus API
+amadeus>=10.0.0
+
+# Email
+jinja2>=3.1.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# HTTP requests
+requests>=2.31.0
+
+# Scheduling (for cron)
+apscheduler>=3.10.0
+
+# Date handling
+python-dateutil>=2.8.0
+
+# Web Framework
+fastapi>=0.104.0
+uvicorn>=0.24.0
+
+# Session management
+itsdangerous>=2.1.0
+
+# Email validation
+email-validator>=2.1.0
