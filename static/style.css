@@ -17,6 +17,12 @@ body {
 .container {
     max-width: 500px;
     margin: 0 auto;
+    transition: max-width 0.3s ease;
+}
+
+/* 有查询结果时，容器变宽以容纳表格 */
+.container:has(#results .result-card) {
+    max-width: 1100px;
 }
 
 header {
@@ -188,10 +194,100 @@ input:focus {
     font-size: 0.9rem;
 }
 
+/* 查询结果 */
+.result-card {
+    margin-bottom: 16px;
+}
+
+.route-title {
+    color: #1a365d;
+    border-bottom: 2px solid #ed8936;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    font-size: 1.15rem;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.result-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.result-table th {
+    background-color: #1a365d;
+    color: white;
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 12px;
+    position: sticky;
+    top: 0;
+}
+
+.result-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.result-table tr:nth-child(even) {
+    background-color: #f7fafc;
+}
+
+.result-table tr.best-price {
+    background-color: #c6f6d5 !important;
+    font-weight: 600;
+}
+
+.result-table .price {
+    font-family: 'SF Mono', Menlo, monospace;
+    font-weight: 600;
+}
+
+.price-low { color: #276749; }
+.price-mid { color: #b7791f; }
+.price-high { color: #9b2c2c; }
+
+.route-sfo { color: #1a365d; font-weight: bold; }
+.route-sjc { color: #744210; font-weight: bold; }
+.route-las { color: #9b2c2c; font-weight: bold; }
+
+.nonstop-badge {
+    background-color: #276749;
+    color: white;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.stop-badge {
+    background-color: #9b2c2c;
+    color: white;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.results-timestamp {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
 /* 加载动画 */
 .loading {
     text-align: center;
     padding: 40px;
+}
+
+#results .loading p {
+    color: white;
+    margin-top: 12px;
 }
 
 .spinner {

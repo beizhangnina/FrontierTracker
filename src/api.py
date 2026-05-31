@@ -20,10 +20,6 @@ class PasswordRequest(BaseModel):
     password: str
 
 
-class QueryRequest(BaseModel):
-    email: str  # 用户查询时输入的邮箱地址
-
-
 class SuccessResponse(BaseModel):
     success: bool
     message: str
@@ -72,10 +68,10 @@ async def get_current_user(session_token: str = Cookie(None)):
     return {"logged_in": False}
 
 
-@router.post("/query", response_model=SuccessResponse)
-async def query_flights(request: QueryRequest, session_token: str = Cookie(None)):
+@router.post("/query")
+async def query_flights(session_token: str = Cookie(None)):
     """
-    查询航班并发送报告到指定邮箱
+    查询航班并直接返回结果（在页面上展示，不发邮件）
 
     需要先登录
     """
@@ -83,8 +79,7 @@ async def query_flights(request: QueryRequest, session_token: str = Cookie(None)
     if not session_token or not validate_session(session_token):
         raise HTTPException(status_code=401, detail="Not logged in")
 
-    email = request.email
-    logger.info(f"Flight query requested for {email}")
+    logger.info("Flight query requested")
 
     try:
         # 生成报告 - 14天
@@ -93,16 +88,17 @@ async def query_flights(request: QueryRequest, session_token: str = Cookie(None)
         total_flights = len(report.get_all_flights())
 
         if total_flights == 0:
-            return {"success": False, "message": "No flights found"}
+            return {"success": False, "message": "No flights found", "routes": []}
 
-        # 直接发送到指定邮箱
-        success = emailer.send_email_to(report, email)
+        # 复用 emailer 的分组/最低价逻辑，直接以 JSON 返回给前端展示
+        data = emailer._prepare_report_data(report)
 
-        if success:
-            logger.info(f"Report sent to {email}")
-            return {"success": True, "message": f"Report sent to {email}"}
-        else:
-            raise HTTPException(status_code=500, detail="Failed to send email")
+        return {
+            "success": True,
+            "message": f"Found {total_flights} flights",
+            "timestamp": data["timestamp"],
+            "routes": data["by_route"],
+        }
 
     except Exception as e:
         logger.error(f"Query error: {e}")
