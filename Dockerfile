@@ -23,4 +23,5 @@ RUN mkdir -p /app/data
 EXPOSE 8080
 
 # 默认命令 - 运行 Web 服务器
-CMD ["uvicorn", "web:app", "--host", "0.0.0.0", "--port", "8080"]
+# Railway 注入 $PORT；用 shell 形式以便变量展开（本地无 PORT 时回退 8080）
+CMD ["sh", "-c", "uvicorn web:app --host 0.0.0.0 --port ${PORT:-8080}"]
